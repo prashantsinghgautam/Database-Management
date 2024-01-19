@@ -20,20 +20,21 @@ Getting Started:
 1. Clone the repository:
 
    git clone https://github.com/prashantsinghgautam/database-management.git
+   
    cd database-management
 
-2. Install dependencies:
+3. Install dependencies:
 
    npm install
 
-3. Connecting the Database
+4. Connecting the Database
    Connect MySQL with credentials
 
-4. Run the application:
+5. Run the application:
 
    npm start
 
-5. Open your web browser and go to http://localhost:3000 to access the application.
+6. Open your web browser and go to http://localhost:3000 to access the application.
 
 Usage:
 
