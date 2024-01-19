@@ -1,63 +1,52 @@
 const Sequelize = require('sequelize');
 const db = require('../utils/database');
 
-// const Table= db.define('database',{
-//     id:{
-//         type:Sequelize.INTEGER,
-//         allowNull:false,
-//         autoIncrement:true,
-//         primaryKey:true
-//     },
-//     tableName:{
-//         type:Sequelize.STRING,
-//         allowNull:false,
+// Define a Table class for handling database operations
+module.exports = class Table {
+  
+    // Create a new table with specified columns
+    static createTable(tableName, columns) {
+        // Add 'id' column as primary key and auto-increment
+        columns.unshift({ columnName: 'id', columnType: 'INT AUTO_INCREMENT PRIMARY KEY NOT NULL' });
 
-//     },
-//     columns:{
-//         type:Sequelize.JSON,
-//         allowNull:false
-//     }
-// });
+        // Generate SQL query for table creation
+        let query = `CREATE TABLE ${tableName} (`;
+        query += columns.map(column => `${column.columnName} ${column.columnType}`).join(', ');
+        query += ')';
 
-// module.exports = Table;
-
-module.exports = class Table{
-
-    static createTable(tableName,columns){
-        columns.unshift({columnName:'id',columnType:'INT AUTO_INCREMENT PRIMARY KEY NOT NULL'})
-        let query= `CREATE TABLE ${tableName} (`;
-        query+= columns.map(column=> `${column.columnName} ${column.columnType}`).join(', ');
-        query+=')';
-
-         return db.execute(query);
-
+        // Execute the query
+        return db.execute(query);
     }
 
-    static addRecord(tableName,record){
-        const columns = record.map(rec=> rec.columnName);
-        const values = record.map(rec=>rec.value);
+    // Add a new record to a specified table
+    static addRecord(tableName, record) {
+        const columns = record.map(rec => rec.columnName);
+        const values = record.map(rec => rec.value);
 
-        const query = `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values.map(()=>'?').join(', ')})`
+        // Generate SQL query for record insertion
+        const query = `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values.map(() => '?').join(', ')})`;
 
-        return db.execute(query,values);
+        // Execute the query with values
+        return db.execute(query, values);
     }
 
-    static getAllTables(){
-       return db.execute('SHOW TABLES')
-    
+    // Get a list of all tables in the database
+    static getAllTables() {
+        return db.execute('SHOW TABLES');
     }
 
-    static getTableData(tableName){
+    // Get data for a specific table
+    static getTableData(tableName) {
         return db.execute(`SELECT * FROM ${tableName}`);
-     
     }
 
-    static deleteRecord(tableName,id){
+    // Delete a record from a specified table based on ID
+    static deleteRecord(tableName, id) {
         return db.execute(`DELETE FROM ${tableName} WHERE id=${id}`);
     }
 
-    static dropTable(tableName){
-        return db.execute(`DROP TABLE ${tableName}`)
+    // Drop a table from the database
+    static dropTable(tableName) {
+        return db.execute(`DROP TABLE ${tableName}`);
     }
-
-}
+};

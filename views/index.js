@@ -4,7 +4,6 @@ const addRecordForm= document.getElementById('addRecordForm');
 const createTableBtn = document.getElementById('createTable');
 const main = document.getElementById('main');
 const tableListDiv = document.getElementById('table-list');
-
 const mainContent = main.innerHTML;
 
 
@@ -14,21 +13,12 @@ btnAddField.addEventListener('click',addField);
 tableForm.addEventListener('submit',createTable);
 addRecordForm.addEventListener('submit',addRecord);
 createTableBtn.addEventListener('click',renderCreateTable)
-// document.addEventListener('DOMContentLoaded',()=>
-// {
-//   const tableList = document.getElementsByClassName('tableList')
-//   console.log(tableList);
-//   tableList.addEventListener('click',()=>console.log('click'))
-//   Array.from(tableList).forEach(item=>{item.addEventListener('click',getTableData)})
-// }
-// );
 
 function renderCreateTable(){
   main.innerHTML=mainContent;
   document.getElementById('addFieldBtn').addEventListener('click',addField);
   document.getElementById('tableForm').addEventListener('submit',createTable);
-  // tableForm.addEventListener('submit',createTable);
-  // btnAddField.addEventListener('click',addField);
+  
 }
 
 function addField(e){
@@ -85,8 +75,6 @@ function createTableList(table){
   div.innerHTML=tableList;
   
   div.addEventListener('click',getTableData)
-  // tableList.addEventListener('click',getTableData)
-  // tableListDiv.insertAdjacentHTML('beforeend',tableList)
   tableListDiv.appendChild(div)
 
 }
@@ -95,7 +83,6 @@ function getTableData(e){
   e.preventDefault();
   
   if(e.target.classList.contains('delete')){
-    // dropTable()
     const link =e.target.parentElement.href;
     const dropLink=link.replace('getTableData','dropTable');
     
@@ -131,9 +118,6 @@ for(const key of columns){
  
   
 }
-
-// const tableNameInput = document.createElement('div').innerHTML=`<input class='form-control mb-2' type='hidden'  name=tableName value=${tableName} >`
-// addRecordForm.insertAdjacentHTML('beforeend',tableNameInput)
 table.appendChild(header);
 
 const tbody = document.createElement('tbody');
@@ -146,8 +130,6 @@ tableData.forEach(item=>{
     
     
   }
-  // box.innerHTML= '<button class="btn btn-danger">Delete</button>'
-  //   row.appendChild(box)'
   const td = document.createElement('td');
   
   const deleteBtn = `<button class="btn btn-danger btn-sm" id=${item.id} tableName=${tableName}>Delete</button>`;
@@ -168,7 +150,6 @@ main.appendChild(table)
 function addFormModal(tableName,column){
   const elements =addRecordForm.children;
 addRecordForm.innerHTML=''
-// Array.from(elements).forEach(element=>addRecordForm.remove(element))
   
   for(let key of column){
     if(key !=='id'){
@@ -198,7 +179,6 @@ function addRecord(e){
 const input =addRecordForm.querySelectorAll('input');
 input.forEach((input)=>record.push({columnName:input.name,value:input.value}));
  addRecordApi(tableName,record);
-//  input.forEach((input)=>input.value='')
 }
 
 function deleteRecord(e){
@@ -227,8 +207,6 @@ async function createTableApi(TableObj){
 async function addRecordApi(tableName,record){
   try {
    const {data}= await axios.post('/database/addRecord',{tableName,record});
-  //  const inputForm =addRecordForm.getElementsByTagName('input');
-  // Array.from(inputForm).forEach(element=>addRecordForm.remove(element))
    generateTable(data.tableName,data.tableData,data.columns)
   } catch (error) {
     alert(error.response.data.error);

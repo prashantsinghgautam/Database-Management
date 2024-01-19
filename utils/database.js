@@ -1,16 +1,13 @@
 const mysql = require('mysql2');
-const {Sequelize} = require('sequelize');
 
-// const sequelize = new Sequelize('nodjs_learning','root','admin',{dialect:'mysql',host:'127.0.0.1',port:'5000',ssl:false});
-
+// Create a connection pool to MySQL database
 const pool = mysql.createPool({
-    host:'127.0.0.1',
-    user:'root',
-    database:'database_mangement',
-    password:'admin',
-    port:5000
-})
+    host: '127.0.0.1',
+    user: 'root',
+    database: 'database_mangement',
+    password: 'admin',
+    port: 3000 // Use the standard MySQL port
+});
 
+// Export the promise-based pool for use in other modules
 module.exports = pool.promise();
-
-// module.exports = sequelize
